@@ -1,0 +1,1064 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<definitions id="Definition"
+             targetNamespace="http://www.jboss.org/drools"
+             typeLanguage="http://www.java.com/javaTypes"
+             expressionLanguage="http://www.mvel.org/2.0"
+             xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL BPMN20.xsd"
+             xmlns:g="http://www.jboss.org/drools/flow/gpd"
+             xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
+             xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
+             xmlns:di="http://www.omg.org/spec/DD/20100524/DI"
+             xmlns:tns="http://www.jboss.org/drools">
+
+  <itemDefinition id="_decisionItem" />
+  <itemDefinition id="_xItem" />
+  <itemDefinition id="_yItem" />
+  <itemDefinition id="_zItem" />
+  <itemDefinition id="_userIdItem" />
+  <itemDefinition id="_ssnItem" />
+  <itemDefinition id="_firstNameItem" />
+  <itemDefinition id="_lastNameItem" />
+  <itemDefinition id="_taskIdItem" />
+  <itemDefinition id="_recordIdItem" />
+
+  <process processType="Private" isExecutable="true" id="com.citi.kyc.addNewClient" name="Add KYC" >
+
+    <!-- process variables -->
+    <property id="decision" itemSubjectRef="_decisionItem"/>
+    <property id="x" itemSubjectRef="_xItem"/>
+    <property id="y" itemSubjectRef="_yItem"/>
+    <property id="z" itemSubjectRef="_zItem"/>
+    <property id="userId" itemSubjectRef="_userIdItem"/>
+    <property id="ssn" itemSubjectRef="_ssnItem"/>
+    <property id="firstName" itemSubjectRef="_firstNameItem"/>
+    <property id="lastName" itemSubjectRef="_lastNameItem"/>
+    <property id="taskId" itemSubjectRef="_taskIdItem"/>
+    <property id="recordId" itemSubjectRef="_recordIdItem"/>
+
+    <!-- nodes -->
+    <startEvent id="_1" name="Start" />
+    <exclusiveGateway id="_2" name="Split1" gatewayDirection="Diverging" />
+    <scriptTask id="_3" name="NameScreening" >
+      <script>com.citi.kyc.core.services.workflow.NameScreeningImpl search = new com.citi.kyc.core.services.workflow.NameScreeningImpl();
+        // String ssn = kcontext.getVariable("ssn");
+        // String firstName = kcontext.getVariable("firstName");
+        // String lastName = kcontext.getVariable("lastName");
+        // String recordId = kcontext.getVariable("recordId");
+        y = search.search(ssn, firstName, lastName, recordId); 
+        recordId = search.getRecordId();
+        kcontext.setVariable("y", y); 
+        kcontext.setVariable("recordId", recordId); 
+      </script>
+    </scriptTask>
+    <scriptTask id="_4" name="search" >
+      <script>
+        // String ssn = kcontext.getVariable("ssn");
+        // String firstName = kcontext.getVariable("firstName");
+        // String lastName = kcontext.getVariable("lastName");
+        com.citi.kyc.core.services.workflow.SearchImpl search = new com.citi.kyc.core.services.workflow.SearchImpl();
+        x = search.search(ssn, firstName, lastName);
+        kcontext.setVariable("x", x);   
+      </script>
+    </scriptTask>
+    <exclusiveGateway id="_5" name="Split2" gatewayDirection="Diverging" />
+    <endEvent id="_7" name="End" >
+        <terminateEventDefinition/>
+    </endEvent>
+    <userTask id="_8" name="NeedMoreInfo" >
+      <ioSpecification>
+        <dataInput id="_8_lastNameInput" name="lastName" />
+        <dataInput id="_8_userIdInput" name="userId" />
+        <dataInput id="_8_ssnInput" name="ssn" />
+        <dataInput id="_8_firstNameInput" name="firstName" />
+        <dataInput id="_8_decisionInput" name="decision" />
+        <dataInput id="_8_zInput" name="z" />
+        <dataInput id="_8_yInput" name="y" />
+        <dataInput id="_8_xInput" name="x" />
+        <dataInput id="_8_CommentInput" name="Comment" />
+        <dataInput id="_8_SkippableInput" name="Skippable" />
+        <dataInput id="_8_ContentInput" name="Content" />
+        <dataInput id="_8_TaskNameInput" name="TaskName" />
+        <dataInput id="_8_GroupIdInput" name="GroupId" />
+        <dataInput id="_8_PriorityInput" name="Priority" />
+        <dataOutput id="_8_lastNameOutput" name="lastName" />
+        <dataOutput id="_8_frirstNameOutput" name="frirstName" />
+        <dataOutput id="_8_userIdOutput" name="userId" />
+        <dataOutput id="_8_ssnOutput" name="ssn" />
+        <dataOutput id="_8_decisionOutput" name="decision" />
+        <dataOutput id="_8_zOutput" name="z" />
+        <dataOutput id="_8_yOutput" name="y" />
+        <dataOutput id="_8_xOutput" name="x" />
+        <inputSet>
+          <dataInputRefs>_8_lastNameInput</dataInputRefs>
+          <dataInputRefs>_8_userIdInput</dataInputRefs>
+          <dataInputRefs>_8_ssnInput</dataInputRefs>
+          <dataInputRefs>_8_firstNameInput</dataInputRefs>
+          <dataInputRefs>_8_decisionInput</dataInputRefs>
+          <dataInputRefs>_8_zInput</dataInputRefs>
+          <dataInputRefs>_8_yInput</dataInputRefs>
+          <dataInputRefs>_8_xInput</dataInputRefs>
+          <dataInputRefs>_8_CommentInput</dataInputRefs>
+          <dataInputRefs>_8_SkippableInput</dataInputRefs>
+          <dataInputRefs>_8_ContentInput</dataInputRefs>
+          <dataInputRefs>_8_TaskNameInput</dataInputRefs>
+          <dataInputRefs>_8_GroupIdInput</dataInputRefs>
+          <dataInputRefs>_8_PriorityInput</dataInputRefs>
+        </inputSet>
+        <outputSet>
+          <dataOutputRefs>_8_lastNameOutput</dataOutputRefs>
+          <dataOutputRefs>_8_frirstNameOutput</dataOutputRefs>
+          <dataOutputRefs>_8_userIdOutput</dataOutputRefs>
+          <dataOutputRefs>_8_ssnOutput</dataOutputRefs>
+          <dataOutputRefs>_8_decisionOutput</dataOutputRefs>
+          <dataOutputRefs>_8_zOutput</dataOutputRefs>
+          <dataOutputRefs>_8_yOutput</dataOutputRefs>
+          <dataOutputRefs>_8_xOutput</dataOutputRefs>
+        </outputSet>
+      </ioSpecification>
+      <dataInputAssociation>
+        <sourceRef>lastName</sourceRef>
+        <targetRef>_8_lastNameInput</targetRef>
+      </dataInputAssociation>
+      <dataInputAssociation>
+        <sourceRef>userId</sourceRef>
+        <targetRef>_8_userIdInput</targetRef>
+      </dataInputAssociation>
+      <dataInputAssociation>
+        <sourceRef>ssn</sourceRef>
+        <targetRef>_8_ssnInput</targetRef>
+      </dataInputAssociation>
+      <dataInputAssociation>
+        <sourceRef>firstName</sourceRef>
+        <targetRef>_8_firstNameInput</targetRef>
+      </dataInputAssociation>
+      <dataInputAssociation>
+        <sourceRef>decision</sourceRef>
+        <targetRef>_8_decisionInput</targetRef>
+      </dataInputAssociation>
+      <dataInputAssociation>
+        <sourceRef>z</sourceRef>
+        <targetRef>_8_zInput</targetRef>
+      </dataInputAssociation>
+      <dataInputAssociation>
+        <sourceRef>y</sourceRef>
+        <targetRef>_8_yInput</targetRef>
+      </dataInputAssociation>
+      <dataInputAssociation>
+        <sourceRef>x</sourceRef>
+        <targetRef>_8_xInput</targetRef>
+      </dataInputAssociation>
+      <dataInputAssociation>
+        <targetRef>_8_CommentInput</targetRef>
+        <assignment>
+          <from xsi:type="tFormalExpression"></from>
+          <to xsi:type="tFormalExpression">_8_CommentInput</to>
+        </assignment>
+      </dataInputAssociation>
+      <dataInputAssociation>
+        <targetRef>_8_SkippableInput</targetRef>
+        <assignment>
+          <from xsi:type="tFormalExpression">false</from>
+          <to xsi:type="tFormalExpression">_8_SkippableInput</to>
+        </assignment>
+      </dataInputAssociation>
+      <dataInputAssociation>
+        <targetRef>_8_ContentInput</targetRef>
+        <assignment>
+          <from xsi:type="tFormalExpression">decision=#{decision}
+userId=#{userId}
+x=#{x}
+y=#{y}
+z=#{z}
+ssn=#{ssn}
+firstName=#{firstName}
+lastName=#{lastName}
+</from>
+          <to xsi:type="tFormalExpression">_8_ContentInput</to>
+        </assignment>
+      </dataInputAssociation>
+      <dataInputAssociation>
+        <targetRef>_8_TaskNameInput</targetRef>
+        <assignment>
+          <from xsi:type="tFormalExpression">NeedMoreInfo</from>
+          <to xsi:type="tFormalExpression">_8_TaskNameInput</to>
+        </assignment>
+      </dataInputAssociation>
+      <dataInputAssociation>
+        <targetRef>_8_GroupIdInput</targetRef>
+        <assignment>
+          <from xsi:type="tFormalExpression"></from>
+          <to xsi:type="tFormalExpression">_8_GroupIdInput</to>
+        </assignment>
+      </dataInputAssociation>
+      <dataInputAssociation>
+        <targetRef>_8_PriorityInput</targetRef>
+        <assignment>
+          <from xsi:type="tFormalExpression"></from>
+          <to xsi:type="tFormalExpression">_8_PriorityInput</to>
+        </assignment>
+      </dataInputAssociation>
+      <dataOutputAssociation>
+        <sourceRef>_8_lastNameOutput</sourceRef>
+        <targetRef>lastName</targetRef>
+      </dataOutputAssociation>
+      <dataOutputAssociation>
+        <sourceRef>_8_frirstNameOutput</sourceRef>
+        <targetRef>firstName</targetRef>
+      </dataOutputAssociation>
+      <dataOutputAssociation>
+        <sourceRef>_8_userIdOutput</sourceRef>
+        <targetRef>userId</targetRef>
+      </dataOutputAssociation>
+      <dataOutputAssociation>
+        <sourceRef>_8_ssnOutput</sourceRef>
+        <targetRef>ssn</targetRef>
+      </dataOutputAssociation>
+      <dataOutputAssociation>
+        <sourceRef>_8_decisionOutput</sourceRef>
+        <targetRef>decision</targetRef>
+      </dataOutputAssociation>
+      <dataOutputAssociation>
+        <sourceRef>_8_zOutput</sourceRef>
+        <targetRef>z</targetRef>
+      </dataOutputAssociation>
+      <dataOutputAssociation>
+        <sourceRef>_8_yOutput</sourceRef>
+        <targetRef>y</targetRef>
+      </dataOutputAssociation>
+      <dataOutputAssociation>
+        <sourceRef>_8_xOutput</sourceRef>
+        <targetRef>x</targetRef>
+      </dataOutputAssociation>
+      <potentialOwner>
+        <resourceAssignmentExpression>
+          <formalExpression>makerAdmin</formalExpression>
+        </resourceAssignmentExpression>
+      </potentialOwner>
+    </userTask>
+    <scriptTask id="_9" name="CalculateRisk" >
+      <script>com.citi.kyc.core.services.workflow.CalculateRiskImpl search = new com.citi.kyc.core.services.workflow.CalculateRiskImpl();
+        // String ssn = kcontext.getVariable("ssn");
+        // String firstName = kcontext.getVariable("firstName");
+        // String lastName = kcontext.getVariable("lastName");
+        z = search.search(ssn, firstName, lastName);
+        kcontext.setVariable("z", z);    
+      </script>
+    </scriptTask>
+    <userTask id="_10" name="NoRecordFound" >
+      <ioSpecification>
+        <dataInput id="_10_taskIdInput" name="taskId" />
+        <dataInput id="_10_recordIdInput" name="recordId" />
+        <dataInput id="_10_lastNameInput" name="lastName" />
+        <dataInput id="_10_userIdInput" name="userId" />
+        <dataInput id="_10_ssnInput" name="ssn" />
+        <dataInput id="_10_firstNameInput" name="firstName" />
+        <dataInput id="_10_decisionInput" name="decision" />
+        <dataInput id="_10_zInput" name="z" />
+        <dataInput id="_10_yInput" name="y" />
+        <dataInput id="_10_xInput" name="x" />
+        <dataInput id="_10_CommentInput" name="Comment" />
+        <dataInput id="_10_SkippableInput" name="Skippable" />
+        <dataInput id="_10_ContentInput" name="Content" />
+        <dataInput id="_10_TaskNameInput" name="TaskName" />
+        <dataInput id="_10_GroupIdInput" name="GroupId" />
+        <dataInput id="_10_PriorityInput" name="Priority" />
+        <dataOutput id="_10_lastNameOutput" name="lastName" />
+        <dataOutput id="_10_userIdOutput" name="userId" />
+        <dataOutput id="_10_ssnOutput" name="ssn" />
+        <dataOutput id="_10_firstNameOutput" name="firstName" />
+        <dataOutput id="_10_decisionOutput" name="decision" />
+        <dataOutput id="_10_zOutput" name="z" />
+        <dataOutput id="_10_yOutput" name="y" />
+        <dataOutput id="_10_xOutput" name="x" />
+        <inputSet>
+          <dataInputRefs>_10_taskIdInput</dataInputRefs>
+          <dataInputRefs>_10_recordIdInput</dataInputRefs>
+          <dataInputRefs>_10_lastNameInput</dataInputRefs>
+          <dataInputRefs>_10_userIdInput</dataInputRefs>
+          <dataInputRefs>_10_ssnInput</dataInputRefs>
+          <dataInputRefs>_10_firstNameInput</dataInputRefs>
+          <dataInputRefs>_10_decisionInput</dataInputRefs>
+          <dataInputRefs>_10_zInput</dataInputRefs>
+          <dataInputRefs>_10_yInput</dataInputRefs>
+          <dataInputRefs>_10_xInput</dataInputRefs>
+          <dataInputRefs>_10_CommentInput</dataInputRefs>
+          <dataInputRefs>_10_SkippableInput</dataInputRefs>
+          <dataInputRefs>_10_ContentInput</dataInputRefs>
+          <dataInputRefs>_10_TaskNameInput</dataInputRefs>
+          <dataInputRefs>_10_GroupIdInput</dataInputRefs>
+          <dataInputRefs>_10_PriorityInput</dataInputRefs>
+        </inputSet>
+        <outputSet>
+          <dataOutputRefs>_10_lastNameOutput</dataOutputRefs>
+          <dataOutputRefs>_10_userIdOutput</dataOutputRefs>
+          <dataOutputRefs>_10_ssnOutput</dataOutputRefs>
+          <dataOutputRefs>_10_firstNameOutput</dataOutputRefs>
+          <dataOutputRefs>_10_decisionOutput</dataOutputRefs>
+          <dataOutputRefs>_10_zOutput</dataOutputRefs>
+          <dataOutputRefs>_10_yOutput</dataOutputRefs>
+          <dataOutputRefs>_10_xOutput</dataOutputRefs>
+        </outputSet>
+      </ioSpecification>
+      <dataInputAssociation>
+        <sourceRef>taskId</sourceRef>
+        <targetRef>_10_taskIdInput</targetRef>
+      </dataInputAssociation>
+      <dataInputAssociation>
+        <sourceRef>recordId</sourceRef>
+        <targetRef>_10_recordIdInput</targetRef>
+      </dataInputAssociation>
+      <dataInputAssociation>
+        <sourceRef>lastName</sourceRef>
+        <targetRef>_10_lastNameInput</targetRef>
+      </dataInputAssociation>
+      <dataInputAssociation>
+        <sourceRef>userId</sourceRef>
+        <targetRef>_10_userIdInput</targetRef>
+      </dataInputAssociation>
+      <dataInputAssociation>
+        <sourceRef>ssn</sourceRef>
+        <targetRef>_10_ssnInput</targetRef>
+      </dataInputAssociation>
+      <dataInputAssociation>
+        <sourceRef>firstName</sourceRef>
+        <targetRef>_10_firstNameInput</targetRef>
+      </dataInputAssociation>
+      <dataInputAssociation>
+        <sourceRef>decision</sourceRef>
+        <targetRef>_10_decisionInput</targetRef>
+      </dataInputAssociation>
+      <dataInputAssociation>
+        <sourceRef>z</sourceRef>
+        <targetRef>_10_zInput</targetRef>
+      </dataInputAssociation>
+      <dataInputAssociation>
+        <sourceRef>y</sourceRef>
+        <targetRef>_10_yInput</targetRef>
+      </dataInputAssociation>
+      <dataInputAssociation>
+        <sourceRef>x</sourceRef>
+        <targetRef>_10_xInput</targetRef>
+      </dataInputAssociation>
+      <dataInputAssociation>
+        <targetRef>_10_CommentInput</targetRef>
+        <assignment>
+          <from xsi:type="tFormalExpression"></from>
+          <to xsi:type="tFormalExpression">_10_CommentInput</to>
+        </assignment>
+      </dataInputAssociation>
+      <dataInputAssociation>
+        <targetRef>_10_SkippableInput</targetRef>
+        <assignment>
+          <from xsi:type="tFormalExpression">false</from>
+          <to xsi:type="tFormalExpression">_10_SkippableInput</to>
+        </assignment>
+      </dataInputAssociation>
+      <dataInputAssociation>
+        <targetRef>_10_ContentInput</targetRef>
+        <assignment>
+          <from xsi:type="tFormalExpression">decision=#{decision}
+userId=#{userId}
+x=#{x}
+y=#{y}
+z=#{z}
+ssn=#{ssn}
+taskId=#{taskId}
+recordId=#{recordId}
+firstName=#{firstName}
+lastName=#{lastName}</from>
+          <to xsi:type="tFormalExpression">_10_ContentInput</to>
+        </assignment>
+      </dataInputAssociation>
+      <dataInputAssociation>
+        <targetRef>_10_TaskNameInput</targetRef>
+        <assignment>
+          <from xsi:type="tFormalExpression">NoRecordFound</from>
+          <to xsi:type="tFormalExpression">_10_TaskNameInput</to>
+        </assignment>
+      </dataInputAssociation>
+      <dataInputAssociation>
+        <targetRef>_10_GroupIdInput</targetRef>
+        <assignment>
+          <from xsi:type="tFormalExpression"></from>
+          <to xsi:type="tFormalExpression">_10_GroupIdInput</to>
+        </assignment>
+      </dataInputAssociation>
+      <dataInputAssociation>
+        <targetRef>_10_PriorityInput</targetRef>
+        <assignment>
+          <from xsi:type="tFormalExpression"></from>
+          <to xsi:type="tFormalExpression">_10_PriorityInput</to>
+        </assignment>
+      </dataInputAssociation>
+      <dataOutputAssociation>
+        <sourceRef>_10_lastNameOutput</sourceRef>
+        <targetRef>lastName</targetRef>
+      </dataOutputAssociation>
+      <dataOutputAssociation>
+        <sourceRef>_10_userIdOutput</sourceRef>
+        <targetRef>userId</targetRef>
+      </dataOutputAssociation>
+      <dataOutputAssociation>
+        <sourceRef>_10_ssnOutput</sourceRef>
+        <targetRef>ssn</targetRef>
+      </dataOutputAssociation>
+      <dataOutputAssociation>
+        <sourceRef>_10_firstNameOutput</sourceRef>
+        <targetRef>firstName</targetRef>
+      </dataOutputAssociation>
+      <dataOutputAssociation>
+        <sourceRef>_10_decisionOutput</sourceRef>
+        <targetRef>decision</targetRef>
+      </dataOutputAssociation>
+      <dataOutputAssociation>
+        <sourceRef>_10_zOutput</sourceRef>
+        <targetRef>z</targetRef>
+      </dataOutputAssociation>
+      <dataOutputAssociation>
+        <sourceRef>_10_yOutput</sourceRef>
+        <targetRef>y</targetRef>
+      </dataOutputAssociation>
+      <dataOutputAssociation>
+        <sourceRef>_10_xOutput</sourceRef>
+        <targetRef>x</targetRef>
+      </dataOutputAssociation>
+      <potentialOwner>
+        <resourceAssignmentExpression>
+          <formalExpression>nameScreenerAdmin</formalExpression>
+        </resourceAssignmentExpression>
+      </potentialOwner>
+    </userTask>
+    <scriptTask id="_11" name="Reply" >
+      <script>
+        // String ssn = kcontext.getVariable("ssn");
+        // String firstName = kcontext.getVariable("firstName");
+        // String lastName = kcontext.getVariable("lastName");
+        // String userId = kcontext.getVariable("userId");
+        // Object x = kcontext.getVariable("x");
+        System.out.println("ssn: " + ssn);
+        System.out.println("firstName: " + firstName);
+        System.out.println("lastName: " + lastName);
+        System.out.println("userId: " + userId);
+        System.out.println("x: " + x);
+      </script>
+    </scriptTask>
+    <userTask id="_12" name="mediumRisk" >
+      <ioSpecification>
+        <dataInput id="_12_recordIdInput" name="recordId" />
+        <dataInput id="_12_taskIdInput" name="taskId" />
+        <dataInput id="_12_lastNameInput" name="lastName" />
+        <dataInput id="_12_userIdInput" name="userId" />
+        <dataInput id="_12_ssnInput" name="ssn" />
+        <dataInput id="_12_firstNameInput" name="firstName" />
+        <dataInput id="_12_decisionInput" name="decision" />
+        <dataInput id="_12_zInput" name="z" />
+        <dataInput id="_12_yInput" name="y" />
+        <dataInput id="_12_xInput" name="x" />
+        <dataInput id="_12_CommentInput" name="Comment" />
+        <dataInput id="_12_SkippableInput" name="Skippable" />
+        <dataInput id="_12_TaskNameInput" name="TaskName" />
+        <dataInput id="_12_ContentInput" name="Content" />
+        <dataInput id="_12_GroupIdInput" name="GroupId" />
+        <dataInput id="_12_PriorityInput" name="Priority" />
+        <dataOutput id="_12_recordIdOutput" name="recordId" />
+        <dataOutput id="_12_taskIdOutput" name="taskId" />
+        <dataOutput id="_12_lastNameOutput" name="lastName" />
+        <dataOutput id="_12_userIdOutput" name="userId" />
+        <dataOutput id="_12_ssnOutput" name="ssn" />
+        <dataOutput id="_12_firstNameOutput" name="firstName" />
+        <dataOutput id="_12_decisionOutput" name="decision" />
+        <dataOutput id="_12_zOutput" name="z" />
+        <dataOutput id="_12_yOutput" name="y" />
+        <dataOutput id="_12_xOutput" name="x" />
+        <inputSet>
+          <dataInputRefs>_12_recordIdInput</dataInputRefs>
+          <dataInputRefs>_12_taskIdInput</dataInputRefs>
+          <dataInputRefs>_12_lastNameInput</dataInputRefs>
+          <dataInputRefs>_12_userIdInput</dataInputRefs>
+          <dataInputRefs>_12_ssnInput</dataInputRefs>
+          <dataInputRefs>_12_firstNameInput</dataInputRefs>
+          <dataInputRefs>_12_decisionInput</dataInputRefs>
+          <dataInputRefs>_12_zInput</dataInputRefs>
+          <dataInputRefs>_12_yInput</dataInputRefs>
+          <dataInputRefs>_12_xInput</dataInputRefs>
+          <dataInputRefs>_12_CommentInput</dataInputRefs>
+          <dataInputRefs>_12_SkippableInput</dataInputRefs>
+          <dataInputRefs>_12_TaskNameInput</dataInputRefs>
+          <dataInputRefs>_12_ContentInput</dataInputRefs>
+          <dataInputRefs>_12_GroupIdInput</dataInputRefs>
+          <dataInputRefs>_12_PriorityInput</dataInputRefs>
+        </inputSet>
+        <outputSet>
+          <dataOutputRefs>_12_recordIdOutput</dataOutputRefs>
+          <dataOutputRefs>_12_taskIdOutput</dataOutputRefs>
+          <dataOutputRefs>_12_lastNameOutput</dataOutputRefs>
+          <dataOutputRefs>_12_userIdOutput</dataOutputRefs>
+          <dataOutputRefs>_12_ssnOutput</dataOutputRefs>
+          <dataOutputRefs>_12_firstNameOutput</dataOutputRefs>
+          <dataOutputRefs>_12_decisionOutput</dataOutputRefs>
+          <dataOutputRefs>_12_zOutput</dataOutputRefs>
+          <dataOutputRefs>_12_yOutput</dataOutputRefs>
+          <dataOutputRefs>_12_xOutput</dataOutputRefs>
+        </outputSet>
+      </ioSpecification>
+      <dataInputAssociation>
+        <sourceRef>recordId</sourceRef>
+        <targetRef>_12_recordIdInput</targetRef>
+      </dataInputAssociation>
+      <dataInputAssociation>
+        <sourceRef>taskId</sourceRef>
+        <targetRef>_12_taskIdInput</targetRef>
+      </dataInputAssociation>
+      <dataInputAssociation>
+        <sourceRef>lastName</sourceRef>
+        <targetRef>_12_lastNameInput</targetRef>
+      </dataInputAssociation>
+      <dataInputAssociation>
+        <sourceRef>userId</sourceRef>
+        <targetRef>_12_userIdInput</targetRef>
+      </dataInputAssociation>
+      <dataInputAssociation>
+        <sourceRef>ssn</sourceRef>
+        <targetRef>_12_ssnInput</targetRef>
+      </dataInputAssociation>
+      <dataInputAssociation>
+        <sourceRef>firstName</sourceRef>
+        <targetRef>_12_firstNameInput</targetRef>
+      </dataInputAssociation>
+      <dataInputAssociation>
+        <sourceRef>decision</sourceRef>
+        <targetRef>_12_decisionInput</targetRef>
+      </dataInputAssociation>
+      <dataInputAssociation>
+        <sourceRef>z</sourceRef>
+        <targetRef>_12_zInput</targetRef>
+      </dataInputAssociation>
+      <dataInputAssociation>
+        <sourceRef>y</sourceRef>
+        <targetRef>_12_yInput</targetRef>
+      </dataInputAssociation>
+      <dataInputAssociation>
+        <sourceRef>x</sourceRef>
+        <targetRef>_12_xInput</targetRef>
+      </dataInputAssociation>
+      <dataInputAssociation>
+        <targetRef>_12_CommentInput</targetRef>
+        <assignment>
+          <from xsi:type="tFormalExpression"></from>
+          <to xsi:type="tFormalExpression">_12_CommentInput</to>
+        </assignment>
+      </dataInputAssociation>
+      <dataInputAssociation>
+        <targetRef>_12_SkippableInput</targetRef>
+        <assignment>
+          <from xsi:type="tFormalExpression">false</from>
+          <to xsi:type="tFormalExpression">_12_SkippableInput</to>
+        </assignment>
+      </dataInputAssociation>
+      <dataInputAssociation>
+        <targetRef>_12_TaskNameInput</targetRef>
+        <assignment>
+          <from xsi:type="tFormalExpression">MediumRisk</from>
+          <to xsi:type="tFormalExpression">_12_TaskNameInput</to>
+        </assignment>
+      </dataInputAssociation>
+      <dataInputAssociation>
+        <targetRef>_12_ContentInput</targetRef>
+        <assignment>
+          <from xsi:type="tFormalExpression">decision=#{decision}
+userId=#{userId}
+x=#{x}
+y=#{y}
+z=#{z}
+ssn=#{ssn}
+firstName=#{firstName}
+lastName=#{lastName}
+taskId=#{taskId}
+recordId=#{recordId}</from>
+          <to xsi:type="tFormalExpression">_12_ContentInput</to>
+        </assignment>
+      </dataInputAssociation>
+      <dataInputAssociation>
+        <targetRef>_12_GroupIdInput</targetRef>
+        <assignment>
+          <from xsi:type="tFormalExpression"></from>
+          <to xsi:type="tFormalExpression">_12_GroupIdInput</to>
+        </assignment>
+      </dataInputAssociation>
+      <dataInputAssociation>
+        <targetRef>_12_PriorityInput</targetRef>
+        <assignment>
+          <from xsi:type="tFormalExpression"></from>
+          <to xsi:type="tFormalExpression">_12_PriorityInput</to>
+        </assignment>
+      </dataInputAssociation>
+      <dataOutputAssociation>
+        <sourceRef>_12_recordIdOutput</sourceRef>
+        <targetRef>recordId</targetRef>
+      </dataOutputAssociation>
+      <dataOutputAssociation>
+        <sourceRef>_12_taskIdOutput</sourceRef>
+        <targetRef>taskId</targetRef>
+      </dataOutputAssociation>
+      <dataOutputAssociation>
+        <sourceRef>_12_lastNameOutput</sourceRef>
+        <targetRef>lastName</targetRef>
+      </dataOutputAssociation>
+      <dataOutputAssociation>
+        <sourceRef>_12_userIdOutput</sourceRef>
+        <targetRef>userId</targetRef>
+      </dataOutputAssociation>
+      <dataOutputAssociation>
+        <sourceRef>_12_ssnOutput</sourceRef>
+        <targetRef>ssn</targetRef>
+      </dataOutputAssociation>
+      <dataOutputAssociation>
+        <sourceRef>_12_firstNameOutput</sourceRef>
+        <targetRef>firstName</targetRef>
+      </dataOutputAssociation>
+      <dataOutputAssociation>
+        <sourceRef>_12_decisionOutput</sourceRef>
+        <targetRef>decision</targetRef>
+      </dataOutputAssociation>
+      <dataOutputAssociation>
+        <sourceRef>_12_zOutput</sourceRef>
+        <targetRef>z</targetRef>
+      </dataOutputAssociation>
+      <dataOutputAssociation>
+        <sourceRef>_12_yOutput</sourceRef>
+        <targetRef>y</targetRef>
+      </dataOutputAssociation>
+      <dataOutputAssociation>
+        <sourceRef>_12_xOutput</sourceRef>
+        <targetRef>x</targetRef>
+      </dataOutputAssociation>
+      <potentialOwner>
+        <resourceAssignmentExpression>
+          <formalExpression>preComplianceAdmin</formalExpression>
+        </resourceAssignmentExpression>
+      </potentialOwner>
+    </userTask>
+    <exclusiveGateway id="_13" name="Split0" gatewayDirection="Diverging" />
+    <exclusiveGateway id="_14" name="Split3" gatewayDirection="Diverging" />
+    <exclusiveGateway id="_15" name="Join" gatewayDirection="Converging" />
+    <exclusiveGateway id="_17" name="Join2" gatewayDirection="Converging" />
+    <exclusiveGateway id="_16" name="Join1" gatewayDirection="Converging" />
+    <userTask id="_19" name="High Risk" >
+      <ioSpecification>
+        <dataInput id="_19_recordIdInput" name="recordId" />
+        <dataInput id="_19_taskIdInput" name="taskId" />
+        <dataInput id="_19_lastNameInput" name="lastName" />
+        <dataInput id="_19_userIdInput" name="userId" />
+        <dataInput id="_19_ssnInput" name="ssn" />
+        <dataInput id="_19_firstNameInput" name="firstName" />
+        <dataInput id="_19_decisionInput" name="decision" />
+        <dataInput id="_19_zInput" name="z" />
+        <dataInput id="_19_yInput" name="y" />
+        <dataInput id="_19_xInput" name="x" />
+        <dataInput id="_19_CommentInput" name="Comment" />
+        <dataInput id="_19_SkippableInput" name="Skippable" />
+        <dataInput id="_19_TaskNameInput" name="TaskName" />
+        <dataInput id="_19_ContentInput" name="Content" />
+        <dataInput id="_19_GroupIdInput" name="GroupId" />
+        <dataInput id="_19_PriorityInput" name="Priority" />
+        <dataOutput id="_19_recordIdOutput" name="recordId" />
+        <dataOutput id="_19_taskIdOutput" name="taskId" />
+        <dataOutput id="_19_lastNameOutput" name="lastName" />
+        <dataOutput id="_19_userIdOutput" name="userId" />
+        <dataOutput id="_19_ssnOutput" name="ssn" />
+        <dataOutput id="_19_firstNameOutput" name="firstName" />
+        <dataOutput id="_19_decisionOutput" name="decision" />
+        <dataOutput id="_19_zOutput" name="z" />
+        <dataOutput id="_19_yOutput" name="y" />
+        <dataOutput id="_19_xOutput" name="x" />
+        <inputSet>
+          <dataInputRefs>_19_recordIdInput</dataInputRefs>
+          <dataInputRefs>_19_taskIdInput</dataInputRefs>
+          <dataInputRefs>_19_lastNameInput</dataInputRefs>
+          <dataInputRefs>_19_userIdInput</dataInputRefs>
+          <dataInputRefs>_19_ssnInput</dataInputRefs>
+          <dataInputRefs>_19_firstNameInput</dataInputRefs>
+          <dataInputRefs>_19_decisionInput</dataInputRefs>
+          <dataInputRefs>_19_zInput</dataInputRefs>
+          <dataInputRefs>_19_yInput</dataInputRefs>
+          <dataInputRefs>_19_xInput</dataInputRefs>
+          <dataInputRefs>_19_CommentInput</dataInputRefs>
+          <dataInputRefs>_19_SkippableInput</dataInputRefs>
+          <dataInputRefs>_19_TaskNameInput</dataInputRefs>
+          <dataInputRefs>_19_ContentInput</dataInputRefs>
+          <dataInputRefs>_19_GroupIdInput</dataInputRefs>
+          <dataInputRefs>_19_PriorityInput</dataInputRefs>
+        </inputSet>
+        <outputSet>
+          <dataOutputRefs>_19_recordIdOutput</dataOutputRefs>
+          <dataOutputRefs>_19_taskIdOutput</dataOutputRefs>
+          <dataOutputRefs>_19_lastNameOutput</dataOutputRefs>
+          <dataOutputRefs>_19_userIdOutput</dataOutputRefs>
+          <dataOutputRefs>_19_ssnOutput</dataOutputRefs>
+          <dataOutputRefs>_19_firstNameOutput</dataOutputRefs>
+          <dataOutputRefs>_19_decisionOutput</dataOutputRefs>
+          <dataOutputRefs>_19_zOutput</dataOutputRefs>
+          <dataOutputRefs>_19_yOutput</dataOutputRefs>
+          <dataOutputRefs>_19_xOutput</dataOutputRefs>
+        </outputSet>
+      </ioSpecification>
+      <dataInputAssociation>
+        <sourceRef>recordId</sourceRef>
+        <targetRef>_19_recordIdInput</targetRef>
+      </dataInputAssociation>
+      <dataInputAssociation>
+        <sourceRef>taskId</sourceRef>
+        <targetRef>_19_taskIdInput</targetRef>
+      </dataInputAssociation>
+      <dataInputAssociation>
+        <sourceRef>lastName</sourceRef>
+        <targetRef>_19_lastNameInput</targetRef>
+      </dataInputAssociation>
+      <dataInputAssociation>
+        <sourceRef>userId</sourceRef>
+        <targetRef>_19_userIdInput</targetRef>
+      </dataInputAssociation>
+      <dataInputAssociation>
+        <sourceRef>ssn</sourceRef>
+        <targetRef>_19_ssnInput</targetRef>
+      </dataInputAssociation>
+      <dataInputAssociation>
+        <sourceRef>firstName</sourceRef>
+        <targetRef>_19_firstNameInput</targetRef>
+      </dataInputAssociation>
+      <dataInputAssociation>
+        <sourceRef>decision</sourceRef>
+        <targetRef>_19_decisionInput</targetRef>
+      </dataInputAssociation>
+      <dataInputAssociation>
+        <sourceRef>z</sourceRef>
+        <targetRef>_19_zInput</targetRef>
+      </dataInputAssociation>
+      <dataInputAssociation>
+        <sourceRef>y</sourceRef>
+        <targetRef>_19_yInput</targetRef>
+      </dataInputAssociation>
+      <dataInputAssociation>
+        <sourceRef>x</sourceRef>
+        <targetRef>_19_xInput</targetRef>
+      </dataInputAssociation>
+      <dataInputAssociation>
+        <targetRef>_19_CommentInput</targetRef>
+        <assignment>
+          <from xsi:type="tFormalExpression"></from>
+          <to xsi:type="tFormalExpression">_19_CommentInput</to>
+        </assignment>
+      </dataInputAssociation>
+      <dataInputAssociation>
+        <targetRef>_19_SkippableInput</targetRef>
+        <assignment>
+          <from xsi:type="tFormalExpression">false</from>
+          <to xsi:type="tFormalExpression">_19_SkippableInput</to>
+        </assignment>
+      </dataInputAssociation>
+      <dataInputAssociation>
+        <targetRef>_19_TaskNameInput</targetRef>
+        <assignment>
+          <from xsi:type="tFormalExpression">High Risk</from>
+          <to xsi:type="tFormalExpression">_19_TaskNameInput</to>
+        </assignment>
+      </dataInputAssociation>
+      <dataInputAssociation>
+        <targetRef>_19_ContentInput</targetRef>
+        <assignment>
+          <from xsi:type="tFormalExpression">decision=#{decision}
+userId=#{userId}
+x=#{x}
+y=#{y}
+z=#{z}
+ssn=#{ssn}
+firstName=#{firstName}
+lastName=#{lastName}
+taskId=#{taskId}
+recordId=#{recordId}</from>
+          <to xsi:type="tFormalExpression">_19_ContentInput</to>
+        </assignment>
+      </dataInputAssociation>
+      <dataInputAssociation>
+        <targetRef>_19_GroupIdInput</targetRef>
+        <assignment>
+          <from xsi:type="tFormalExpression"></from>
+          <to xsi:type="tFormalExpression">_19_GroupIdInput</to>
+        </assignment>
+      </dataInputAssociation>
+      <dataInputAssociation>
+        <targetRef>_19_PriorityInput</targetRef>
+        <assignment>
+          <from xsi:type="tFormalExpression"></from>
+          <to xsi:type="tFormalExpression">_19_PriorityInput</to>
+        </assignment>
+      </dataInputAssociation>
+      <dataOutputAssociation>
+        <sourceRef>_19_recordIdOutput</sourceRef>
+        <targetRef>recordId</targetRef>
+      </dataOutputAssociation>
+      <dataOutputAssociation>
+        <sourceRef>_19_taskIdOutput</sourceRef>
+        <targetRef>taskId</targetRef>
+      </dataOutputAssociation>
+      <dataOutputAssociation>
+        <sourceRef>_19_lastNameOutput</sourceRef>
+        <targetRef>lastName</targetRef>
+      </dataOutputAssociation>
+      <dataOutputAssociation>
+        <sourceRef>_19_userIdOutput</sourceRef>
+        <targetRef>userId</targetRef>
+      </dataOutputAssociation>
+      <dataOutputAssociation>
+        <sourceRef>_19_ssnOutput</sourceRef>
+        <targetRef>ssn</targetRef>
+      </dataOutputAssociation>
+      <dataOutputAssociation>
+        <sourceRef>_19_firstNameOutput</sourceRef>
+        <targetRef>firstName</targetRef>
+      </dataOutputAssociation>
+      <dataOutputAssociation>
+        <sourceRef>_19_decisionOutput</sourceRef>
+        <targetRef>decision</targetRef>
+      </dataOutputAssociation>
+      <dataOutputAssociation>
+        <sourceRef>_19_zOutput</sourceRef>
+        <targetRef>z</targetRef>
+      </dataOutputAssociation>
+      <dataOutputAssociation>
+        <sourceRef>_19_yOutput</sourceRef>
+        <targetRef>y</targetRef>
+      </dataOutputAssociation>
+      <dataOutputAssociation>
+        <sourceRef>_19_xOutput</sourceRef>
+        <targetRef>x</targetRef>
+      </dataOutputAssociation>
+      <potentialOwner>
+        <resourceAssignmentExpression>
+          <formalExpression>amlReporterAdmin</formalExpression>
+        </resourceAssignmentExpression>
+      </potentialOwner>
+    </userTask>
+    <exclusiveGateway id="_18" name="Join3" gatewayDirection="Converging" />
+
+    <!-- connections -->
+    <sequenceFlow id="_3-_2" sourceRef="_3" targetRef="_2" />
+    <sequenceFlow id="_17-_3" sourceRef="_17" targetRef="_3" />
+    <sequenceFlow id="_13-_4" sourceRef="_13" targetRef="_4" name="search" >
+      <conditionExpression xsi:type="tFormalExpression" >return decision == "search";</conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="_9-_5" sourceRef="_9" targetRef="_5" />
+    <sequenceFlow id="_11-_7" sourceRef="_11" targetRef="_7" />
+    <sequenceFlow id="_14-_8" sourceRef="_14" targetRef="_8" name="yes" >
+      <conditionExpression xsi:type="tFormalExpression" >return x == "yes";</conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="_16-_9" sourceRef="_16" targetRef="_9" />
+    <sequenceFlow id="_2-_10" sourceRef="_2" targetRef="_10" name="no" >
+      <conditionExpression xsi:type="tFormalExpression" >return y == "no";</conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="_18-_11" sourceRef="_18" targetRef="_11" />
+    <sequenceFlow id="_5-_12" sourceRef="_5" targetRef="_12" name="medium" >
+      <conditionExpression xsi:type="tFormalExpression" >return z == "medium";</conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="_15-_13" sourceRef="_15" targetRef="_13" />
+    <sequenceFlow id="_4-_14" sourceRef="_4" targetRef="_14" />
+    <sequenceFlow id="_1-_15" sourceRef="_1" targetRef="_15" />
+    <sequenceFlow id="_8-_15" sourceRef="_8" targetRef="_15" />
+    <sequenceFlow id="_14-_17" sourceRef="_14" targetRef="_17" name="no" >
+      <conditionExpression xsi:type="tFormalExpression" >return x == "no";</conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="_13-_17" sourceRef="_13" targetRef="_17" name="nameScreening" >
+      <conditionExpression xsi:type="tFormalExpression" >return decision == "nameScreening";</conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="_2-_16" sourceRef="_2" targetRef="_16" name="yes" >
+      <conditionExpression xsi:type="tFormalExpression" >return y == "yes";</conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="_13-_16" sourceRef="_13" targetRef="_16" name="calculateRisk" >
+      <conditionExpression xsi:type="tFormalExpression" >return decision == "calculateRisk";</conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="_10-_16" sourceRef="_10" targetRef="_16" />
+    <sequenceFlow id="_5-_19" sourceRef="_5" targetRef="_19" name="high" >
+      <conditionExpression xsi:type="tFormalExpression" >return z == "high";</conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="_5-_18" sourceRef="_5" targetRef="_18" name="low" >
+      <conditionExpression xsi:type="tFormalExpression" >return z == "low";</conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="_13-_18" sourceRef="_13" targetRef="_18" name="reply" >
+      <conditionExpression xsi:type="tFormalExpression" >return decision == "reply";</conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="_12-_18" sourceRef="_12" targetRef="_18" />
+    <sequenceFlow id="_19-_18" sourceRef="_19" targetRef="_18" />
+
+  </process>
+
+  <bpmndi:BPMNDiagram>
+    <bpmndi:BPMNPlane bpmnElement="com.citi.kyc.addNewClient" >
+      <bpmndi:BPMNShape bpmnElement="_1" >
+        <dc:Bounds x="13" y="206" width="48" height="48" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="_2" >
+        <dc:Bounds x="524" y="306" width="48" height="48" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="_3" >
+        <dc:Bounds x="392" y="206" width="147" height="48" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="_4" >
+        <dc:Bounds x="178" y="206" width="115" height="48" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="_5" >
+        <dc:Bounds x="710" y="306" width="48" height="48" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="_7" >
+        <dc:Bounds x="1055" y="206" width="48" height="48" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="_8" >
+        <dc:Bounds x="261" y="400" width="147" height="49" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="_9" >
+        <dc:Bounds x="675" y="207" width="118" height="48" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="_10" >
+        <dc:Bounds x="473" y="446" width="151" height="49" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="_11" >
+        <dc:Bounds x="896" y="206" width="118" height="48" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="_12" >
+        <dc:Bounds x="677" y="491" width="115" height="49" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="_13" >
+        <dc:Bounds x="211" y="26" width="48" height="48" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="_14" >
+        <dc:Bounds x="310" y="306" width="48" height="48" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="_15" >
+        <dc:Bounds x="98" y="206" width="48" height="48" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="_17" >
+        <dc:Bounds x="310" y="206" width="48" height="48" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="_16" >
+        <dc:Bounds x="577" y="206" width="48" height="48" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="_19" >
+        <dc:Bounds x="898" y="531" width="100" height="48" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="_18" >
+        <dc:Bounds x="821" y="206" width="48" height="48" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge bpmnElement="_3-_2" >
+        <di:waypoint x="465" y="230" />
+        <di:waypoint x="465" y="330" />
+        <di:waypoint x="548" y="330" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="_17-_3" >
+        <di:waypoint x="334" y="230" />
+        <di:waypoint x="465" y="230" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="_13-_4" >
+        <di:waypoint x="235" y="50" />
+        <di:waypoint x="235" y="230" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="_9-_5" >
+        <di:waypoint x="734" y="231" />
+        <di:waypoint x="734" y="330" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="_11-_7" >
+        <di:waypoint x="955" y="230" />
+        <di:waypoint x="1079" y="230" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="_14-_8" >
+        <di:waypoint x="334" y="330" />
+        <di:waypoint x="334" y="424" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="_16-_9" >
+        <di:waypoint x="601" y="230" />
+        <di:waypoint x="734" y="231" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="_2-_10" >
+        <di:waypoint x="548" y="330" />
+        <di:waypoint x="548" y="470" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="_18-_11" >
+        <di:waypoint x="845" y="230" />
+        <di:waypoint x="955" y="230" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="_5-_12" >
+        <di:waypoint x="734" y="330" />
+        <di:waypoint x="734" y="515" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="_15-_13" >
+        <di:waypoint x="122" y="230" />
+        <di:waypoint x="122" y="50" />
+        <di:waypoint x="235" y="50" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="_4-_14" >
+        <di:waypoint x="235" y="230" />
+        <di:waypoint x="235" y="330" />
+        <di:waypoint x="334" y="330" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="_1-_15" >
+        <di:waypoint x="37" y="230" />
+        <di:waypoint x="122" y="230" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="_8-_15" >
+        <di:waypoint x="334" y="424" />
+        <di:waypoint x="122" y="424" />
+        <di:waypoint x="122" y="230" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="_14-_17" >
+        <di:waypoint x="334" y="330" />
+        <di:waypoint x="334" y="230" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="_13-_17" >
+        <di:waypoint x="235" y="50" />
+        <di:waypoint x="334" y="50" />
+        <di:waypoint x="334" y="230" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="_2-_16" >
+        <di:waypoint x="548" y="330" />
+        <di:waypoint x="601" y="330" />
+        <di:waypoint x="601" y="230" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="_13-_16" >
+        <di:waypoint x="235" y="50" />
+        <di:waypoint x="601" y="50" />
+        <di:waypoint x="601" y="230" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="_10-_16" >
+        <di:waypoint x="548" y="470" />
+        <di:waypoint x="653" y="468" />
+        <di:waypoint x="601" y="230" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="_5-_19" >
+        <di:waypoint x="734" y="330" />
+        <di:waypoint x="948" y="330" />
+        <di:waypoint x="948" y="555" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="_5-_18" >
+        <di:waypoint x="734" y="330" />
+        <di:waypoint x="845" y="330" />
+        <di:waypoint x="845" y="230" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="_13-_18" >
+        <di:waypoint x="235" y="50" />
+        <di:waypoint x="845" y="50" />
+        <di:waypoint x="845" y="230" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="_12-_18" >
+        <di:waypoint x="734" y="515" />
+        <di:waypoint x="845" y="516" />
+        <di:waypoint x="845" y="230" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="_19-_18" >
+        <di:waypoint x="948" y="555" />
+        <di:waypoint x="847" y="554" />
+        <di:waypoint x="845" y="230" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+
+</definitions>
