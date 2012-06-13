@@ -1,157 +1,156 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>com.redhat.training</groupId>
-  <artifactId>human-task-example-war</artifactId>
-  <version>1.0-SNAPSHOT</version>
-  
-   <packaging>war</packaging>
-   
-  <name>Redhat :: Human Task Example WAR</name>
-  
-  <properties>
-        <drools.version>5.3.0.BRMS-ER8</drools.version>
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.redhat.training</groupId>
+	<artifactId>human-task-example-war</artifactId>
+	<version>1.0-SNAPSHOT</version>
+
+	<packaging>war</packaging>
+
+	<name>Redhat :: Human Task Example WAR</name>
+
+	<properties>
+		<drools.version>5.3.0.BRMS-ER8</drools.version>
 		<jbpm5.version>5.3.0.BRMS-ER8</jbpm5.version>
 		<spring.version>3.1.0.RC1</spring.version>
-  </properties>
-    
-  
-  <dependencies>
-	
-	
-	<dependency>
-      <groupId>javax.servlet</groupId>
-      <artifactId>servlet-api</artifactId>
-      <version>2.5</version>
-      <!-- Any servlet container supports -->
-      <scope>provided</scope>
-    </dependency>
-	
-   
-    
-    <dependency>
-      <groupId>org.jbpm</groupId>
-      <artifactId>jbpm-human-task</artifactId>
-      <version>${jbpm5.version}</version>
-    </dependency>
-    
-    <dependency>
-      <groupId>org.jbpm</groupId>
-      <artifactId>jbpm-bam</artifactId>
-      <version>${jbpm5.version}</version>
-    </dependency>
-    
-     <dependency>
-      <groupId>org.jbpm</groupId>
-      <artifactId>jbpm-persistence-jpa</artifactId>
-      <version>${jbpm5.version}</version>
-    </dependency>
-    
-    <dependency>
-      <groupId>org.jbpm</groupId>
-      <artifactId>jbpm-bpmn2</artifactId>
-      <version>${jbpm5.version}</version>
-    </dependency>
-    
-    <dependency>
-      <groupId>org.drools</groupId>
-       <artifactId>drools-spring</artifactId>
-      <version>${jbpm5.version}</version>
-      <exclusions>
-      	<exclusion>
-      		<artifactId>spring-core</artifactId>
-      		<groupId>org.springframework</groupId>
-      	</exclusion>
-      	<exclusion>
-      		<artifactId>spring-beans</artifactId>
-      		<groupId>org.springframework</groupId>
-      	</exclusion>
-      	<exclusion>
-      		<artifactId>spring-context</artifactId>
-      		<groupId>org.springframework</groupId>
-      	</exclusion>
-      </exclusions>
-    </dependency>
+	</properties>
 
 
-   	 <dependency>
-	   <groupId>org.springframework</groupId>
-	   <artifactId>spring-orm</artifactId>
-	   <version>${spring.version}</version>
-	 </dependency>
-	
-	 <dependency>
-	   <groupId>org.springframework</groupId>
-	   <artifactId>spring-jdbc</artifactId>
-	   <version>${spring.version}</version>
-	 </dependency>
-	 
-	 
-	 
-	 <dependency>
-	   <groupId>org.springframework</groupId>
-	   <artifactId>spring-context</artifactId>
-	   <version>${spring.version}</version>
-	 </dependency>
-	 
-	  <dependency>
-    	<groupId>org.hornetq</groupId>
-    	<artifactId>hornetq-core</artifactId>
-    	<version>2.2.10.Final</version>
-    </dependency>
-    
-    <dependency>
-    	<groupId>org.jboss.netty</groupId>
-    	<artifactId>netty</artifactId>
-	    <version>3.2.0.Final</version>
-    </dependency>
-	 
-	 	 
-	 <dependency>
-	   <groupId>org.springframework</groupId>
-	   <artifactId>spring-web</artifactId>
-	   <version>${spring.version}</version>
-	 </dependency>
-	 
-	  <dependency>
-	  <groupId>xstream</groupId>
-	  <artifactId>xstream</artifactId>
-	  <version>1.2.2</version>
-	</dependency>
-     
-	<dependency>
-	  <groupId>org.codehaus.btm</groupId>
-	  <artifactId>btm</artifactId>
-	  <version>2.1.3</version>
-	</dependency>
-	
-	 <dependency>
-    	<groupId>commons-logging</groupId>
-    	<artifactId>commons-logging</artifactId>
-    	<version>1.1.1</version>
-    </dependency>
-    
-	
-	  <dependency>
-	    <groupId>org.hibernate.javax.persistence</groupId>
-	    <artifactId>hibernate-jpa-2.0-api</artifactId>
-	    <version>1.0.1.Final</version>
-	  </dependency>
-	  
-	  <dependency>
-	    <groupId>org.hibernate</groupId>
-	    <artifactId>hibernate-entitymanager</artifactId>
-	    <version>4.1.2.Final</version>
-	  </dependency>
-	  
-	    <dependency>
-	    <groupId>org.hibernate</groupId>
-	    <artifactId>hibernate-core</artifactId>
-	    <version>4.1.2.Final</version>
-	  </dependency>
-	
-  </dependencies>
+	<dependencies>
+
+
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>servlet-api</artifactId>
+			<version>2.5</version>
+			<!-- Any servlet container supports -->
+			<scope>provided</scope>
+		</dependency>
+
+
+
+		<dependency>
+			<groupId>org.jbpm</groupId>
+			<artifactId>jbpm-human-task</artifactId>
+			<version>${jbpm5.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.jbpm</groupId>
+			<artifactId>jbpm-bam</artifactId>
+			<version>${jbpm5.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.jbpm</groupId>
+			<artifactId>jbpm-persistence-jpa</artifactId>
+			<version>${jbpm5.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.jbpm</groupId>
+			<artifactId>jbpm-bpmn2</artifactId>
+			<version>${jbpm5.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.drools</groupId>
+			<artifactId>drools-spring</artifactId>
+			<version>${jbpm5.version}</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>spring-core</artifactId>
+					<groupId>org.springframework</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>spring-beans</artifactId>
+					<groupId>org.springframework</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>spring-context</artifactId>
+					<groupId>org.springframework</groupId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-orm</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-jdbc</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+
+
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.hornetq</groupId>
+			<artifactId>hornetq-core</artifactId>
+			<version>2.2.10.Final</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.jboss.netty</groupId>
+			<artifactId>netty</artifactId>
+			<version>3.2.0.Final</version>
+		</dependency>
+
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-web</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>xstream</groupId>
+			<artifactId>xstream</artifactId>
+			<version>1.2.2</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.codehaus.btm</groupId>
+			<artifactId>btm</artifactId>
+			<version>2.1.3</version>
+		</dependency>
+
+		<dependency>
+			<groupId>commons-logging</groupId>
+			<artifactId>commons-logging</artifactId>
+			<version>1.1.1</version>
+		</dependency>
+
+
+		<dependency>
+			<groupId>org.hibernate.javax.persistence</groupId>
+			<artifactId>hibernate-jpa-2.0-api</artifactId>
+			<version>1.0.1.Final</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-entitymanager</artifactId>
+			<version>4.1.2.Final</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-core</artifactId>
+			<version>4.1.2.Final</version>
+		</dependency>
+
+	</dependencies>
 </project>
