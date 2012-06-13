@@ -1,0 +1,16 @@
+1) Download the BRMS5.3 ER 8 and build it. 
+2) Install tomcat 6.x
+3) Add Postrgess driver to tomcat/lib directory
+4) In conf/context.xml add:
+ <Resource name="jdbc/jbpmDS" auth="Container"
+          type="javax.sql.DataSource" driverClassName="org.postgresql.Driver"
+          url="jdbc:postgresql://192.168.116.5:5432/jbpm" defaultAutoCommit="false"
+          username="postgres" password="postgres" maxActive="20" maxIdle="10" maxWait="-1"/> 
+5) build (mvn clean install)
+6) Deploy (copy target/*.war to the tomcat webapps directory)
+7) Wait for the app to start.
+8) Test by http://localhost:8080/human-task-example-war-1.0-SNAPSHOT/StartProcessServlet
+  a) View "Notification of completed task 1" in log file
+  b) On web-page: Started Process
+                  {decision=nameScreening}
+        
