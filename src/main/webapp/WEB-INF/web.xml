@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="2.5">
+ 
+  <display-name>Human Task Service WAR</display-name>
+   
+   <listener>
+        <listener-class>
+            org.springframework.web.context.ContextLoaderListener
+        </listener-class>
+    </listener>
+ 
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>classpath:spring-context.xml</param-value>
+    </context-param>
+
+  <servlet>
+    <servlet-name>StartProcessServlet</servlet-name>
+      <servlet-class>com.sample.task.servlet.StartProcessServlet</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+    <servlet-name>StartProcessServlet</servlet-name>
+    <url-pattern>/StartProcessServlet/*</url-pattern>
+  </servlet-mapping>
+  
+   <servlet>
+    <servlet-name>StartUpServlet</servlet-name>
+      <servlet-class>com.sample.task.servlet.StartUpServlet</servlet-class>
+      <load-on-startup>2</load-on-startup>
+  </servlet>
+  
+  <servlet-mapping>
+    <servlet-name>StartUpServlet</servlet-name>
+    <url-pattern>/StartUpServlet/*</url-pattern>
+  </servlet-mapping>
+  
+  <resource-ref>
+      <description>DB Connection</description>
+      <res-ref-name>jdbc/jbpmDS</res-ref-name>
+      <res-type>javax.sql.DataSource</res-type>
+      <res-auth>Container</res-auth>
+  </resource-ref>
+</web-app>

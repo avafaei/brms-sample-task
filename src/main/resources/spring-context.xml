@@ -5,11 +5,12 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans 
                            http://www.springframework.org/schema/beans/spring-beans-3.0.xsd 
                            http://drools.org/schema/drools-spring 
-                           org/drools/container/spring/drools-spring-1.2.0.xsd">
+                           http://drools.org/schema/drools-spring-1.2.0.xsd">
+                          
+                          
 
-  <!-- drools spring persistence-->
-  
-  <jbpm:kstore id="kstore" /> 
+   <jbpm:kstore id="kstore" /> 
+
 
   <jbpm:kbase id="jbpmKbase">
     <jbpm:resources> 
@@ -25,50 +26,49 @@
       </jbpm:jpa-persistence>
     </jbpm:configuration>
   </jbpm:ksession>
-  
-  <!-- persistence & transactions-->
 
-  <bean id="htEmf" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
-    <property name="persistenceUnitName" value="org.jbpm.all" />
-    <!-- 
-    <property name="jpaVendorAdapter">
-      <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
-        <property name="database" value="H2" />
-        <property name="showSql" value="false" />
-      </bean>
-    </property>
-    -->
-  </bean>
+	<bean id="htEmf"
+		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+		<property name="persistenceUnitName" value="org.jbpm.all" />
+	</bean>
 
-  <bean id="htEm" class="org.springframework.orm.jpa.support.SharedEntityManagerBean">
-    <property name="entityManagerFactory" ref="htEmf"/>
-  </bean>
+	<bean id="htEm"
+		class="org.springframework.orm.jpa.support.SharedEntityManagerBean">
+		<property name="entityManagerFactory" ref="htEmf" />
+	</bean>
 
-  <bean id="jpaHtTxMgr" class="org.springframework.orm.jpa.JpaTransactionManager">
-    <property name="entityManagerFactory" ref="htEmf" />
-    <!-- this must be true if using the SharedEntityManagerBean, and false otherwise -->
-    <property name="nestedTransactionAllowed" value="true"/>
-  </bean>
+	<bean id="jpaHtTxMgr" class="org.springframework.orm.jpa.JpaTransactionManager">
+		<property name="entityManagerFactory" ref="htEmf" />
 
-  <bean id="htTxMgr" class="org.drools.container.spring.beans.persistence.HumanTaskSpringTransactionManager">
-    <constructor-arg ref="jpaHtTxMgr" />
-  </bean>
+		<property name="nestedTransactionAllowed" value="true" />
+	</bean>
 
-  <!-- human-task beans -->
+	<bean id="htTxMgr"
+		class="org.drools.container.spring.beans.persistence.HumanTaskSpringTransactionManager">
+		<constructor-arg ref="jpaHtTxMgr" />
+	</bean>
 
-  <bean id="systemEventListener" class="org.drools.SystemEventListenerFactory" factory-method="getSystemEventListener" />
+	<!-- human-task beans -->
 
-  <bean id="springTaskSessionFactory" class="org.jbpm.task.service.persistence.TaskSessionSpringFactoryImpl"
-        init-method="initialize" >
-    <!-- if using the SharedEntityManagerBean, make sure to enable nested transactions -->
-    <property name="entityManager" ref="htEm" />
-    <property name="transactionManager" ref="htTxMgr" />
-    <property name="useJTA" value="false" />
-    <property name="taskService" ref="taskService" />
-  </bean>
+	<bean id="systemEventListener" class="org.drools.SystemEventListenerFactory"
+		factory-method="getSystemEventListener" />
 
-  <bean id="taskService" class="org.jbpm.task.service.TaskService" >
-    <property name="systemEventListener" ref="systemEventListener" />
-  </bean>
+	<bean id="springTaskSessionFactory"
+		class="org.jbpm.task.service.persistence.TaskSessionSpringFactoryImpl"
+		init-method="initialize">
+
+		<property name="entityManager" ref="htEm" />
+		<property name="transactionManager" ref="htTxMgr" />
+		<property name="useJTA" value="false" />
+		<property name="taskService" ref="taskService" />
+	</bean>
+
+	<bean id="taskService" class="org.jbpm.task.service.TaskService">
+	     <constructor-arg><ref bean="htEmf"/></constructor-arg>
+         <constructor-arg><ref bean="systemEventListener"/></constructor-arg>
+	</bean>
+
+
+	
 
 </beans>
