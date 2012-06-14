@@ -9,8 +9,6 @@
 5) build (mvn clean install)
 6) Deploy (copy target/*.war to the tomcat webapps directory)
 7) Wait for the app to start.
-8) Test by http://localhost:8080/human-task-example-war-1.0-SNAPSHOT/StartProcessServlet
-  a) View "Notification of completed task 1" in log file
-  b) On web-page: Started Process
-                  {decision=nameScreening}
+8) Test by http://localhost:8080/brms-demo/search
+
         
