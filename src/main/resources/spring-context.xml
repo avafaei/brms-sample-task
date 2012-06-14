@@ -12,21 +12,19 @@
    <jbpm:kstore id="kstore" /> 
 
 
-  <jbpm:kbase id="jbpmKbase">
+  <jbpm:kbase id="kbase">
     <jbpm:resources> 
       <jbpm:resource source="classpath:newClient2.bpmn" type="BPMN2" />
     </jbpm:resources>
   </jbpm:kbase>
 
-  <jbpm:ksession id="jbpmKsession" type="stateful" kbase="jbpmKbase">
-    <jbpm:configuration>
-      <jbpm:jpa-persistence>
-        <jbpm:transaction-manager ref="jpaHtTxMgr" />
-        <jbpm:entity-manager-factory ref="htEmf" />   
-      </jbpm:jpa-persistence>
-    </jbpm:configuration>
-  </jbpm:ksession>
-
+   <bean id="brmsFactory" class="com.sample.task.service.BrmsFactory">
+       <property name="htEmf" ref="htEmf" />
+       <property name="kbase" ref="kbase" />
+      <property name="jpaHtTxMgr" ref="jpaHtTxMgr" />
+   </bean>
+   
+  
 	<bean id="htEmf"
 		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
 		<property name="persistenceUnitName" value="org.jbpm.all" />

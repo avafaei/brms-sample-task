@@ -40,6 +40,7 @@ public class StartUpServlet extends HttpServlet {
         Map<String, Group> groups = new HashMap<String, Group>();
         users.put("Administrator",new User("Administrator"));
 		users.put("makerAdmin",new User("makerAdmin"));
+		users.put("maker1",new User("maker1"));
 	    users.put("nameScreenerAdmin", new User("nameScreenerAdmin"));
 		taskService.addUsersAndGroups(users, groups);
         server = new HornetQTaskServer(taskService, 5446);

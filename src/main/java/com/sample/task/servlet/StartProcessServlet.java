@@ -48,7 +48,7 @@ public class StartProcessServlet extends HttpServlet {
 			HttpServletResponse response) throws ServletException, IOException {
         
 		WebApplicationContext webCtx = WebApplicationContextUtils.getWebApplicationContext(getServletContext());
-    	StatefulKnowledgeSession ksession = (StatefulKnowledgeSession) webCtx.getBean("jbpmKsession");
+    	StatefulKnowledgeSession ksession = (StatefulKnowledgeSession) webCtx.getBean("ksession");
 	        
     	CommandBasedHornetQWSHumanTaskHandler taskHandler = new CommandBasedHornetQWSHumanTaskHandler(ksession);
  		HornetQTaskClientHandler handler = new HornetQTaskClientHandler(SystemEventListenerFactory.getSystemEventListener());
