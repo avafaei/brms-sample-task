@@ -1,4 +1,5 @@
 1) Download the BRMS5.3 ER 8 and build it. 
+   Note you might have to change the hornetq version from 2.2.2.GA to 2.2.2.Final
 2) Install tomcat 6.x
 3) Add Postrgess driver to tomcat/lib directory
 4) In conf/context.xml add:
